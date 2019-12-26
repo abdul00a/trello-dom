@@ -1,4 +1,4 @@
-body {
+* {
   margin: 0;
 }
 .background-img {
@@ -16,7 +16,7 @@ header:hover {
   width: 22em;
 }
 .card-panel {
-  background-color: #c8d9e2;
+  background-color: #bcd0db;
 }
 .btn {
   font-size: 17px;
@@ -25,4 +25,32 @@ header:hover {
   height: auto;
   text-align: justify;
   padding: 0.3em 0 0.6em 0.5em;
+}
+.card-input {
+  outline: none;
+}
+input[type='text']:not(.browser-default) {
+  border: none;
+}
+.cancel-icon {
+  display: inline-block;
+  position: fixed;
+  margin-left: 1em;
+  cursor: pointer;
+}
+#addCard {
+  display: none;
+}
+.card-content {
+  background-color: #f4f5f9;
+}
+.header {
+  font-weight: bolder;
+}
+.cards {
+  display: flex;
+  justify-content: space-between;
+}
+i.tiny {
+  font-size: 1.5rem;
 }

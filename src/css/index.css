@@ -1,0 +1,28 @@
+body {
+  margin: 0;
+}
+.background-img {
+  background-image: url(../img/peter-thomas-LiSO0mKdIJs-unsplash.jpg);
+  background-size: cover;
+}
+.img-fluid {
+  display: block;
+  margin: 0 auto;
+}
+header:hover {
+  background-color: rgba(0, 0, 0, 0.32);
+}
+.list {
+  width: 22em;
+}
+.card-panel {
+  background-color: #c8d9e2;
+}
+.btn {
+  font-size: 17px;
+}
+.card.small {
+  height: auto;
+  text-align: justify;
+  padding: 0.3em 0 0.6em 0.5em;
+}

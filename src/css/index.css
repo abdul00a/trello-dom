@@ -52,6 +52,13 @@ input[type='text']:not(.browser-default) {
   justify-content: space-between;
 }
 i.tiny {
-  font-size: 1.5rem;
+  font-size: 1.7rem;
   cursor: pointer;
+}
+.modalBox{
+  display: flex;
+  justify-content: space-between;
+}
+.modal .modal-footer {
+  width: auto;
 }

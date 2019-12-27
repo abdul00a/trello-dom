@@ -11,11 +11,10 @@ const getCard = async () => {
   JSONresponse.map(ele => {
     createcard(ele.name, ele.id);
   });
-  // console.log(JSONresponse);
 };
 
 const createcard = (value, id) => {
-  const cards = `<li data-id="${id}">
+  const cards = `<li data-id="${id}" data-target="${id}" class="modal-trigger">
   <div class="card small cards">
     ${value}
     <i class="tiny material-icons close-card">cancel</i>
@@ -23,6 +22,22 @@ const createcard = (value, id) => {
 </li>`;
   const cardContainer = document.querySelector('#card-container');
   cardContainer.insertAdjacentHTML('beforeend', cards);
+  createModal(value, id);
+  return;
+};
+
+const createModal = (value, id) => {
+  const modal = `<div id="${id}" class="modal">
+  <div class="modal-content">
+    <h4>${value}</h4>
+    <p>A bunch of text</p>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+  </div>
+</div>`;
+  const modaContainer = document.querySelector('#modal-container');
+  modaContainer.insertAdjacentHTML('beforeend', modal);
   return;
 };
 
@@ -62,17 +77,23 @@ const main = () => {
   });
 
   //remove card from list
-  const cardC = document.querySelector('#card-container');
-  cardC.addEventListener('click',async event => {
-    // console.log(event.target.classList);
+  const cardContainer = document.querySelector('#card-container');
+  cardContainer.addEventListener('click', async event => {
     if (event.target.classList[2] === 'close-card') {
       const cardID = event.target.parentNode.parentNode.getAttribute('data-id');
       const url = `https://api.trello.com/1/cards/${cardID}?key=${apiKey}&token=${token}`;
       await fetch(url, {
-          method: 'DELETE'
+        method: 'DELETE'
       });
       event.target.parentNode.parentNode.remove();
+      event.stopPropagation();
+      // return;
+    } else if (event.target.classList[2] === 'cards') {
+      const elems = document.querySelectorAll('.modal');
+      M.Modal.init(elems);
+      // event.stopPropagation();
     }
+    console.log(event.target);
   });
 };
 

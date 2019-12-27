@@ -7,14 +7,14 @@ const token =
 const getCard = async () => {
   const url = `https://api.trello.com/1/lists/${listId}/cards?key=${apiKey}&token=${token}`;
   const response = await fetch(url);
-  const JSONresponse = await response.json();
+  const JSONresponse = response.json();
   JSONresponse.map(ele => {
-    createcard(ele.name, ele.id);
+    createcard(ele.name,ele.id);
   });
-  // console.log(JSONresponse);
+  console.log(JSONresponse);
 };
 
-const createcard = (value, id) => {
+const createcard = (value , id) => {
   const cards = `<li data-id="${id}">
   <div class="card small cards">
     ${value}
@@ -22,9 +22,9 @@ const createcard = (value, id) => {
   </div>
 </li>`;
   const cardContainer = document.querySelector('#card-container');
-  cardContainer.insertAdjacentHTML('beforeend', cards);
-  return;
-};
+    cardContainer.insertAdjacentHTML('beforeend', cards);
+    return;
+}
 
 const main = () => {
   getCard();
@@ -55,19 +55,19 @@ const main = () => {
         method: 'POST'
       });
       const card = await response.json();
-
-      createcard(text.value, card.id);
+  
+      createcard(text.value,card.id);
       text.value = '';
     }
   });
 
   //remove card from list
   const cardC = document.querySelector('#card-container');
-  cardC.addEventListener('click',async event => {
+  cardC.addEventListener('click', event => {
     // console.log(event.target.classList);
     if (event.target.classList[2] === 'close-card') {
       const cardID = event.target.parentNode.parentNode.getAttribute('data-id');
-      const url = `https://api.trello.com/1/cards/${cardID}?key=${apiKey}&token=${token}`;
+      let url = `https://api.trello.com/1/cards/${cardID}?key=${apiKey}&token=${token}`;
       await fetch(url, {
           method: 'DELETE'
       });
@@ -76,4 +76,5 @@ const main = () => {
   });
 };
 
-document.addEventListener(' DOMContentLoaded', main());
+// document.addEventListener(' DOMContentLoaded', main());
+main();

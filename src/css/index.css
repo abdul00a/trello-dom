@@ -53,4 +53,5 @@ input[type='text']:not(.browser-default) {
 }
 i.tiny {
   font-size: 1.5rem;
+  cursor: pointer;
 }

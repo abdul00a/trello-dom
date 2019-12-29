@@ -55,10 +55,49 @@ i.tiny {
   font-size: 1.7rem;
   cursor: pointer;
 }
-.modalBox{
+.modalBox {
   display: flex;
   justify-content: space-between;
+  background-color: #F4F5F7;
 }
 .modal .modal-footer {
   width: auto;
+}
+#checklist {
+  margin-bottom: 1em;
+}
+.checlist-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1em;
+}
+.head {
+  margin-left: 0.6em;
+  font-size: 1.5em;
+}
+.checklist-icon {
+  align-self: center;
+}
+#newChecklist {
+  width: 7em;
+}
+#addChecklist {
+  display: none;
+}
+.modal .modal-content {
+  width: 65em;
+}
+.checkListName {
+  display: flex;
+  margin-bottom: 1em;
+}
+.oneChecklist {
+  margin: 1em 0 2em 0;
+  background-color: #ebecf0;
+}
+.addchecklistItems {
+  display: none;
+}
+.del{
+  align-self: center;
 }

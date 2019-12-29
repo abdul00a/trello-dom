@@ -38,7 +38,7 @@
                 <li data-target="modal1" class="modal-trigger">
                   <div class="card small cards">
                     Default Card
-                    <i class="tiny material-icons close-card">cancel</i>
+                    <i class="tiny material-icons close-card" data-type="deleteCard">cancel</i>
                   </div>
                 </li>
               </div>
@@ -74,8 +74,6 @@
         </div>
       </div>
     </section>
-   <!-- Modal Trigger -->
-   <!-- <button data-target="modal1" class="btn modal-trigger">Modal</button> -->
 
    <!-- Modal Structure -->
    <section id="modal-container">
@@ -83,7 +81,82 @@
      <div class="modalBox">
        <div class="modal-content">
          <h4>Modal Header</h4>
+         <div id="checklist">
+          <button
+            class="btn waves-effect waves-light"
+            type="submit"
+            name="action"
+            id="btn-checklist"
+          >
+            ADD Checklist <i class="fa fa-plus-circle" aria-hidden="true"></i>
+          </button>
         </div>
+        <div id="addChecklist">
+          <div class="card small">
+            <input
+              type="text"
+              placeholder="checklist"
+              id="checkListInput"
+            />
+            <button class="waves-effect waves-light btn" id="newChecklist">Add
+              <i class="fa fa-plus-circle" aria-hidden="true"></i>
+            </button>
+            <div class="cancel-icon"><i class="small material-icons" id="close-tab">cancel</i></div>
+          </div>
+        </div>
+
+        <div id="allChecklist-container">
+
+        <div class="oneChecklist">
+          <div class="checlist-header">
+           <div>
+             <div class="checkListName">
+               <i class="fa fa-check-square-o checklist-icon" aria-hidden="true"></i>
+               <p class="head">checklist1</p>
+              </div>
+             <div>
+
+              <div>
+                <button
+                  class="btn waves-effect waves-light checklistItems"
+                  type="submit"
+                  name="action"
+                  data-type="checkitems">
+                  Add item
+                </button>
+              </div>
+             <div class="addchecklistItems" data-type="additem"> 
+                <div class="card small">
+                  <input
+                    type="text"
+                    placeholder="checklist Items"
+                    id="checkListInputItem"
+                  />
+                  <button class="waves-effect waves-light btn" id="newChecklist">Add
+                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                  </button>
+                  <div class="cancel-icon">
+                    <i class="small material-icons closeChecklistItems" data-type="close_checkitems">cancel</i>
+                  </div>
+                </div>
+              </div>
+             </div>
+            
+           </div>
+           <div data-type="delete" class="del">
+            <button class="waves-effect waves-light btn">Delete
+            </button>
+           </div>
+          </div>
+          <label>
+         <input type="checkbox" />
+         <span>Red</span>
+       </label>
+        </div>
+
+      </div>
+
+    </div>
         <div class="modal-footer">
           <i class="small material-icons modal-close waves-effect waves-green btn-flat">cancel</i>
         </div>

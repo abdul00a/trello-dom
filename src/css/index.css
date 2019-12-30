@@ -58,7 +58,7 @@ i.tiny {
 .modalBox {
   display: flex;
   justify-content: space-between;
-  background-color: #F4F5F7;
+  background-color: #f4f5f7;
 }
 .modal .modal-footer {
   width: auto;
@@ -98,6 +98,12 @@ i.tiny {
 .addchecklistItems {
   display: none;
 }
-.del{
+.del {
   align-self: center;
+}
+.box {
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  margin: 0 0 0.8em 0.7em;
 }

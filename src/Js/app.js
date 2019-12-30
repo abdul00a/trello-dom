@@ -36,8 +36,11 @@ const createModal = () => {
     const val = event.target.firstChild.textContent;
     model.setAttribute('id', id);
     text.textContent = val;
-
-    getchecklist(id);
+    const cheitem =
+      event.target.offsetParent.offsetParent.parentNode.parentNode
+        .nextElementSibling.childNodes[1].childNodes[1].childNodes[1]
+        .childNodes[7].children;
+    getchecklist(id, cheitem);
   });
   return;
 };
@@ -66,21 +69,19 @@ const createCheckList = (name, id) => {
                <input
                  type="text"
                  placeholder="checklist Items"
-                 id="checkListInputItem"
                />
-               <button class="waves-effect waves-light btn" id="newChecklist">Add
+               <button class="waves-effect waves-light btn" data-type="checkListItem">Add
                  <i class="fa fa-plus-circle" aria-hidden="true"></i>
                </button>
                <div class="cancel-icon">
-                 <i class="small material-icons closeChecklistItems" data-type="close_checkitems">cancel</i>
+                 <i class="small material-icons" data-type="close_checkitems">cancel</i>
                </div>
               </div>
             </div>
           </div>
         </div>
            <div data-type="delete" class="del">
-            <button class="waves-effect waves-light btn">Delete
-            </button>
+            <button class="waves-effect waves-light btn">Delete</button>
            </div>
           </div>
 </div>`;
@@ -88,12 +89,37 @@ const createCheckList = (name, id) => {
   return;
 };
 
-const getchecklist = async id => {
-  const url = ` https://api.trello.com/1/cards/${id}/checklists?checkItems=all&checkItem_fields=name%2CnameData%2Cpos%2Cstate&key=${apiKey}&token=${token}`;
+const creteCheckItem = (elem, id, values, state) => {
+  let flag = '';
+  if (state === 'complete') {
+    flag = 'checked';
+  }
+  const items = `<div data-id=${id} class="box">
+    <label class="box">
+      <input type="checkbox" data-type="status" ${flag} />
+      <span>${values}</span>
+      </label>
+      <i class="small material-icons" data-type="removeitem">cancel</i>
+</div>`;
+
+  elem.insertAdjacentHTML('beforeend', items);
+  return;
+};
+
+const getchecklist = async (id, item) => {
+  const url = ` https://api.trello.com/1/cards/${id}/checklists?checkItems=all&key=${apiKey}&token=${token}`;
   const response = await fetch(url);
   const JSONresponse = await response.json();
   JSONresponse.map(ele => {
     createCheckList(ele.name, ele.id);
+    console.log(item);
+    Array.from(item).forEach(checkEle => {
+      if (checkEle.getAttribute('data-id') === ele.id) {
+        ele.checkItems.map(create => {
+          creteCheckItem(checkEle, create.id, create.name, create.state);
+        });
+      }
+    });
   });
 };
 
@@ -130,10 +156,8 @@ const main = () => {
     btn_checklist.style.display = 'block';
   });
 
-  // create new check list header
   const checkLists = document.getElementById('newChecklist');
   checkLists.addEventListener('click', async event => {
-    // console.log(event.target.offsetParent.offsetParent.id);
     const listName = document.getElementById('checkListInput');
     if (listName.value === '') {
       alert('please enter checklist name');
@@ -151,9 +175,9 @@ const main = () => {
     }
   });
 
-  // remove checklist
-  const deleteChecklist = document.getElementById('allChecklist-container');
-  deleteChecklist.addEventListener('click', async event => {
+  //add or remove checklist an checklist-items
+  const checklistContainer = document.getElementById('allChecklist-container');
+  checklistContainer.addEventListener('click', async event => {
     if (event.target.parentNode.getAttribute('data-type') === 'delete') {
       const checklistID = event.target.parentNode.parentNode.parentNode.getAttribute(
         'data-id'
@@ -170,6 +194,59 @@ const main = () => {
       event.target.parentNode.parentNode.parentNode.style.display = 'none';
       event.target.parentNode.parentNode.parentNode.previousElementSibling.firstElementChild.style.display =
         'block';
+    } else if (event.target.getAttribute('data-type') === 'checkListItem') {
+      const id = event.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.getAttribute(
+        'data-id'
+      );
+      if (event.target.previousElementSibling.value === '') {
+        alert('please enter checklist items name');
+      } else {
+        const url = `https://api.trello.com/1/checklists/${id}/checkItems?name=${event.target.previousElementSibling.value}&pos=bottom&checked=false&key=${apiKey}&token=${token}`;
+        const response = await fetch(url, {
+          method: 'POST'
+        });
+        const item = await response.json();
+        const elem =
+          event.target.parentNode.parentNode.parentNode.parentNode.parentNode
+            .parentNode;
+
+        creteCheckItem(
+          elem,
+          item.id,
+          event.target.previousElementSibling.value,
+          item.state
+        );
+        event.target.previousElementSibling.value = '';
+      }
+    } else if (event.target.getAttribute('data-type') === 'removeitem') {
+      console.log(event.target.parentNode.parentNode);
+      const itemid = event.target.parentNode.getAttribute('data-id');
+      const checklitsid = event.target.parentNode.parentNode.getAttribute(
+        'data-id'
+      );
+      const url = `https://api.trello.com/1/checklists/${checklitsid}/checkItems/${itemid}?key=${apiKey}&token=${token}`;
+      await fetch(url, {
+        method: 'DELETE'
+      });
+      event.target.parentNode.remove();
+    } else if (event.target.getAttribute('data-type') === 'status') {
+      console.log(event.target);
+      const idCheckItem = event.target.parentNode.parentNode.getAttribute(
+        'data-id'
+      );
+      const cardid = event.target.offsetParent.id;
+      let status = '';
+      if (event.target.checked === true) {
+        status = 'complete';
+      } else {
+        status = 'incomplete';
+      }
+
+      const url = `https://api.trello.com/1/cards/${cardid}/checkItem/${idCheckItem}?state=${status}&key=${apiKey}&token=${token}`;
+      const response = await fetch(url, {
+        method: 'PUT'
+      });
+      const result = await response.json();
     }
   });
 
@@ -202,7 +279,6 @@ const main = () => {
       });
       event.target.parentNode.parentNode.remove();
       event.stopPropagation();
-      // return;
     } else {
       const elems = document.querySelectorAll('.modal');
       M.Modal.init(elems);

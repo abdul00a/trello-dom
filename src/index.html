@@ -131,6 +131,7 @@
                     type="text"
                     placeholder="checklist Items"
                     id="checkListInputItem"
+                    checked="true"
                   />
                   <button class="waves-effect waves-light btn" id="newChecklist">Add
                     <i class="fa fa-plus-circle" aria-hidden="true"></i>
@@ -144,22 +145,29 @@
             
            </div>
            <div data-type="delete" class="del">
-            <button class="waves-effect waves-light btn">Delete
-            </button>
+            <button class="waves-effect waves-light btn">Delete</button>
            </div>
           </div>
-          <label>
-         <input type="checkbox" />
-         <span>Red</span>
-       </label>
+        <div id="itemContainer">
+          <div class="box">
+            <label>
+              <!-- <div> -->
+              <input type="checkbox" />
+              <span>Red</span>
+            <!-- </div> -->
+          </label>
+          <i class="small material-icons" data-type="removeitem">cancel</i>
+          </div>
+      </div>
         </div>
+
 
       </div>
 
     </div>
-        <div class="modal-footer">
+        <!-- <div class="modal-footer">
           <i class="small material-icons modal-close waves-effect waves-green btn-flat">cancel</i>
-        </div>
+        </div> -->
     </div>
    </div>
   </section>

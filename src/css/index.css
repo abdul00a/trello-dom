@@ -2,7 +2,7 @@
   margin: 0;
 }
 .background-img {
-  background-image: url(../img/peter-thomas-LiSO0mKdIJs-unsplash.jpg);
+  background-image: url('../img/peter-thomas-LiSO0mKdIJs-unsplash.jpg');
   background-size: cover;
 }
 .img-fluid {
